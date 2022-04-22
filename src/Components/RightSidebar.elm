@@ -2,14 +2,14 @@ module Components.RightSidebar exposing (view)
 
 import Colors exposing (greyIcon)
 import Components.LayoutType exposing (ShowRightSidebarMenu)
-import Element exposing (Attribute, Element, alignRight, centerX, centerY, column, el, fill, height, htmlAttribute, padding, paddingXY, px, rgb, row, spacing, text, width)
+import Element exposing (Attribute, Element, alignRight, centerX, centerY, column, el, fill, height, htmlAttribute, image, padding, paddingXY, px, rgb, row, spacing, text, width)
 import Element.Background as Background
 import Element.Input as Input
 import Html.Attributes
 import Material.Icons as Filled
 import Material.Icons.Types as MITypes
 import WSDecoder exposing (Connection(..))
-
+import Element.Font as Font
 
 view : ShowRightSidebarMenu msg -> Bool -> msg -> Int -> Connection -> Element msg
 view { showRightSidebarMenu, showRightSidebarMenuMsg, clearPlaylistMsg, refreshPlaylistMsg, partyModeToggleMsg } rightSidebarExtended rightSidebarMsg panelHeight connection =
@@ -17,7 +17,17 @@ view { showRightSidebarMenu, showRightSidebarMenuMsg, clearPlaylistMsg, refreshP
         column
             [ height (px panelHeight), width (px 400), Background.color Colors.playlistHeaderBackground, alignRight, htmlAttribute <| Html.Attributes.style "pointer-events" "all" ]
             [ row [ width fill ]
-                [ Input.button [ Background.color Colors.backgroundKodi, height (px 50), width (px 100), padding 8 ] { onPress = Just rightSidebarMsg, label = Element.text "Kodi" }
+                [ Input.button [ Background.color Colors.backgroundKodi, height (px 50), width (px 100), padding 8 ] 
+                    { onPress = Just rightSidebarMsg
+                    , label = 
+                        Element.row[]
+                        [ image [ width (px 15), height (px 15), paddingXY 15 0]    
+                            { description = ""
+                            , src = "http://localhost:1234/images/logo.png"
+                            }
+                        , el [Font.color (Element.rgb255 18 178 231)](text "Kodi")
+                        ]
+                    }
                 , Input.button [ Background.color Colors.backgroundLocal, height (px 50), width (px 100), padding 8 ]
                     { onPress = Just rightSidebarMsg
                     , label =
